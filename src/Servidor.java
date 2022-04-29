@@ -15,31 +15,36 @@ public class Servidor {
         byte[] recebeDado = new byte[1024];
         byte[] enviaDado;
 
-        DatagramPacket recebePacote = new DatagramPacket(recebeDado,
-                recebeDado.length);
-        System.out.println("Esperando por uma mensagem na porta " + porta);
-        socketServidor.receive(recebePacote);
+        while (true) {
+            DatagramPacket recebePacote = new DatagramPacket(recebeDado,
+                    recebeDado.length);
+            System.out.println("Esperando por uma mensagem na porta " + porta);
+            socketServidor.receive(recebePacote);
 
-        //variavel que recebe a mensagem do cliente
-        String mensagem = new String(recebePacote.getData());
-        System.out.println(mensagem);
+            //variavel que recebe a mensagem do cliente
+            String mensagem = new String(recebePacote.getData());
+            System.out.println(mensagem);
 
-        InetAddress EnderecoIP = recebePacote.getAddress();
+            InetAddress EnderecoIP = recebePacote.getAddress();
 
-        int port = recebePacote.getPort();
+            int port = recebePacote.getPort();
 
-        String capitalizedSentence = mensagem.toUpperCase();
+            String capitalizedSentence = mensagem.toUpperCase();
 
-        enviaDado = capitalizedSentence.getBytes();
+            enviaDado = capitalizedSentence.getBytes();
 
-        DatagramPacket enviaPacote = new DatagramPacket(enviaDado,
-                enviaDado.length, EnderecoIP, port);
+            DatagramPacket enviaPacote = new DatagramPacket(enviaDado,
+                    enviaDado.length, EnderecoIP, port);
 
-        System.out.print("Enviando " + capitalizedSentence + "...");
+            System.out.print("Enviando " + capitalizedSentence + "...");
 
-        socketServidor.send(enviaPacote);
-        System.out.println("Recebido\n");
+            socketServidor.send(enviaPacote);
+            System.out.println("Recebido\n");
 
-        System.out.println("Encerrando servidor...");
+            if (!capitalizedSentence.equals("SAIR")) {
+                System.out.println("Encerrando servidor...");
+                break;
+            }
+        }
     }
 }
