@@ -41,10 +41,7 @@ public class Servidor {
             socketServidor.send(enviaPacote);
             System.out.println("Recebido\n");
 
-            if (!capitalizedSentence.equals("SAIR")) {
-                System.out.println("Encerrando servidor...");
-                break;
-            }
+            System.out.println("Encerrando servidor...");
         }
     }
 }
